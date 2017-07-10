@@ -163,6 +163,8 @@ class Resource(object):
             kwargs['api_secret'] = api.secret_key
         if 'api_public' not in kwargs and api.public_key:
             kwargs['api_key'] = api.public_key
+        if 'access_token' not in kwargs and api.access_token:
+            kwargs['access_token'] = api.access_token
 
         # We need to ensure this is a list so that
         # multiple values for a key work
@@ -232,10 +234,11 @@ class DisqusAPI(Resource):
         'json': (json.loads, ValueError),
     }
 
-    def __init__(self, secret_key=None, public_key=None, format='json', version='3.0',
-                 timeout=None, interfaces=INTERFACES, **kwargs):
+    def __init__(self, secret_key=None, public_key=None, access_token=None, format='json',
+                 version='3.0', timeout=None, interfaces=INTERFACES, **kwargs):
         self.secret_key = secret_key
         self.public_key = public_key
+        self.access_token = access_token
         if not public_key:
             warnings.warn('You should pass ``public_key`` in addition to your secret key.')
         self.format = format
